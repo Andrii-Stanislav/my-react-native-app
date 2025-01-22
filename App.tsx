@@ -1,10 +1,16 @@
 import { useEffect } from "react";
-import { ActivityIndicator } from "react-native";
+import {
+  ActivityIndicator,
+  ImageBackground,
+  StyleSheet,
+  View,
+} from "react-native";
 import { useFonts } from "expo-font";
 
 import * as SplasshScreen from "expo-splash-screen";
 
 import RegistrationScreen from "./screens/RegistrationScreen";
+import LoginScreen from "./screens/LoginScreen";
 
 SplasshScreen.preventAutoHideAsync();
 
@@ -26,5 +32,27 @@ export default function App() {
     return <ActivityIndicator size="large" />; // Показуй індикатор завантаження
   }
 
-  return <RegistrationScreen />;
+  return (
+    <View style={styles.container}>
+      <ImageBackground
+        source={require("./assets/images/bg.png")}
+        resizeMode="cover"
+        style={styles.image}
+      >
+        <RegistrationScreen />
+        {/* <LoginScreen /> */}
+      </ImageBackground>
+    </View>
+  );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#fff",
+  },
+  image: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+});
