@@ -1,144 +1,120 @@
-import { useState } from "react";
+import { FC, useState } from "react";
+import { NativeStackScreenProps } from "react-native-screens/lib/typescript/native-stack/types";
+import { StackParamList } from "../navigation/StackNavigator";
+
 import {
-  Dimensions,
+  ImageBackground,
   Keyboard,
   KeyboardAvoidingView,
   Platform,
-  StyleSheet,
   Text,
   TouchableWithoutFeedback,
   View,
 } from "react-native";
 
-import { colors, baseStyles } from "../styles/global";
+import { styles } from "../styles/css";
 
 import Input from "../components/Input";
 import Button from "../components/Button";
-import AddIcon from "../assets/images/svg/AddIcon";
 import PasswordInput from "../components/PasswordInput";
 
-const { width: SCREEN_WIDTH } = Dimensions.get("screen");
+import AddIcon from "../icons/AddIcon";
 
-const RegistrationScreen = () => {
+type HomeScreenProps = NativeStackScreenProps<StackParamList, "Registration">;
+
+const RegistrationScreen: FC<HomeScreenProps> = ({ navigation, route }) => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [keyboardStatus, setKeyboardStatus] = useState(false);
+
+  const handleLoginChange = (value: string) => {
+    setLogin(value);
+    setKeyboardStatus(true);
+  };
+
+  const handleEmailChange = (value: string) => {
+    setEmail(value);
+    setKeyboardStatus(true);
+  };
+
+  const handlePasswordChange = (value: string) => {
+    setPassword(value);
+    setKeyboardStatus(true);
+  };
 
   const onRegister = () => {
-    console.log(
-      "Credentials",
-      `login: ${login}, email: ${email}, password: ${password}`
-    );
+    navigation.navigate("Home");
   };
 
   const onLogin = () => {
-    console.log("Login");
+    navigation.navigate("Login");
   };
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS == "ios" ? "padding" : "height"}
-      >
-        <View style={styles.formContainer}>
-          <View style={styles.avatarContainer}>
-            <AddIcon width="25" height="25" style={styles.plusIcon}></AddIcon>
-          </View>
-          <Text style={baseStyles.title}>Реєстрація</Text>
+    <ImageBackground
+      source={require("../assets/images/bg.png")}
+      resizeMode="cover"
+      style={styles.image}
+    >
+      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+        <KeyboardAvoidingView
+          style={styles.container}
+          behavior={Platform.OS == "ios" ? "padding" : "height"}
+        >
+          <View
+            style={{
+              ...styles.formContainer,
+              height: keyboardStatus ? "60%" : "77%",
+            }}
+          >
+            <View style={styles.avatarContainer}>
+              <AddIcon width="25" height="25" style={styles.plusIcon}></AddIcon>
+            </View>
+            <Text style={styles.title}>Реєстрація</Text>
 
-          <View style={[styles.innerContainer, styles.inputContainer]}>
-            <Input
-              value={login}
-              autofocus={true}
-              placeholder="Логін"
-              onTextChange={setLogin}
-            />
+            <View style={[styles.innerContainer, styles.inputContainer]}>
+              <Input
+                autofocus={true}
+                value={login}
+                placeholder="Логін"
+                onTextChange={handleLoginChange}
+              />
 
-            <Input
-              value={email}
-              autofocus={true}
-              placeholder="Адреса електронної пошти"
-              onTextChange={setEmail}
-            />
+              <Input
+                value={email}
+                placeholder="Адреса електронної пошти"
+                onTextChange={handleEmailChange}
+              />
 
-            <PasswordInput
-              value={password}
-              placeholder="Пароль"
-              onTextChange={setPassword}
-            />
-          </View>
+              <PasswordInput
+                value={password}
+                placeholder="Пароль"
+                onTextChange={handlePasswordChange}
+              />
+            </View>
 
-          <View style={[styles.innerContainer, styles.buttonContainer]}>
-            <Button onPress={onRegister}>
-              <Text style={[baseStyles.baseText, styles.buttonText]}>
-                Зареєстуватися
-              </Text>
-            </Button>
+            <View style={[styles.innerContainer, styles.buttonContainer]}>
+              <Button onPress={onRegister}>
+                <Text style={[styles.baseText, styles.buttonText]}>
+                  Зареєстуватися
+                </Text>
+              </Button>
 
-            <View style={styles.loginContainer}>
-              <Text style={[baseStyles.baseText, baseStyles.linkText]}>
-                Вже є акаунт?&ensp;
-                <TouchableWithoutFeedback onPress={onLogin}>
-                  <Text style={baseStyles.underline}>Увійти</Text>
-                </TouchableWithoutFeedback>
-              </Text>
+              <View style={styles.loginContainer}>
+                <Text style={[styles.baseText, styles.passwordButtonText]}>
+                  Вже є акаунт?&ensp;
+                  <TouchableWithoutFeedback onPress={onLogin}>
+                    <Text style={styles.linkText}>Увійти</Text>
+                  </TouchableWithoutFeedback>
+                </Text>
+              </View>
             </View>
           </View>
-        </View>
-      </KeyboardAvoidingView>
-    </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
+      </TouchableWithoutFeedback>
+    </ImageBackground>
   );
 };
 
 export default RegistrationScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "flex-end",
-  },
-  innerContainer: {
-    gap: 16,
-  },
-  inputContainer: {
-    marginTop: 32,
-  },
-  buttonContainer: {
-    marginTop: 42,
-  },
-  formContainer: {
-    width: SCREEN_WIDTH,
-    minHeight: "65%",
-    backgroundColor: colors.white,
-    borderTopRightRadius: 25,
-    borderTopLeftRadius: 25,
-    paddingHorizontal: 16,
-    paddingTop: 92,
-  },
-  avatarContainer: {
-    position: "relative",
-    marginTop: -152,
-    marginBottom: 32,
-    alignSelf: "center",
-    width: 120,
-    height: 120,
-    backgroundColor: colors.light_gray,
-    borderRadius: 16,
-  },
-  plusIcon: {
-    position: "absolute",
-    bottom: 14,
-    right: -12,
-  },
-  buttonText: {
-    color: colors.white,
-    textAlign: "center",
-  },
-  loginContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
