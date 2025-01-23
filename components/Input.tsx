@@ -1,6 +1,6 @@
-import { StyleSheet, TextInput, View, ViewProps } from "react-native";
-import { colors } from "../styles/global";
+import { TextInput, View, ViewProps } from "react-native";
 import { FC, useState } from "react";
+import { styles } from "../styles/css";
 
 type InputProps = {
   value: string;
@@ -49,26 +49,5 @@ const Input: FC<InputProps> = ({
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  input: {
-    padding: 16,
-    height: 50,
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: colors.border_gray,
-    backgroundColor: colors.light_gray,
-  },
-  baseText: {
-    fontWeight: "400",
-    fontSize: 16,
-    lineHeight: 18,
-    color: colors.black_primary,
-  },
-  focused: {
-    backgroundColor: colors.white,
-    borderColor: colors.orange,
-  },
-});
 
 export default Input;
