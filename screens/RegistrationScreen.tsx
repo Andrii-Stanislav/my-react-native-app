@@ -20,9 +20,9 @@ import PasswordInput from "../components/PasswordInput";
 
 import AddIcon from "../icons/AddIcon";
 
-type HomeScreenProps = NativeStackScreenProps<StackParamList, "Registration">;
+type Props = NativeStackScreenProps<StackParamList, "Registration">;
 
-const RegistrationScreen: FC<HomeScreenProps> = ({ navigation, route }) => {
+const RegistrationScreen: FC<Props> = ({ navigation }) => {
   const [login, setLogin] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
