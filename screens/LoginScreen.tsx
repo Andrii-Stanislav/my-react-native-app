@@ -17,9 +17,9 @@ import Input from "../components/Input";
 import Button from "../components/Button";
 import PasswordInput from "../components/PasswordInput";
 
-type HomeScreenProps = NativeStackScreenProps<StackParamList, "Login">;
+type Props = NativeStackScreenProps<StackParamList, "Login">;
 
-const LoginScreen: FC<HomeScreenProps> = ({ navigation, route }) => {
+const LoginScreen: FC<Props> = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [keyboardStatus, setKeyboardStatus] = useState(false);
