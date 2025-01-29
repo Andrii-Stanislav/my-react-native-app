@@ -38,12 +38,10 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     width: SCREEN_WIDTH,
-    height: "60%",
+    height: "100%",
     backgroundColor: colors.white,
-    borderTopRightRadius: 25,
-    borderTopLeftRadius: 25,
     paddingHorizontal: 16,
-    paddingTop: 92,
+    paddingTop: 32,
   },
   title: {
     fontSize: 30,
