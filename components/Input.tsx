@@ -10,6 +10,7 @@ type InputProps = {
   onTextChange: (value: string) => void;
   secureTextEntry?: boolean;
   autofocus?: boolean;
+  onFocusStatus?: (value: boolean) => void;
 };
 
 const Input: FC<InputProps> = ({
@@ -20,15 +21,18 @@ const Input: FC<InputProps> = ({
   rightButton,
   autofocus = false,
   secureTextEntry = false,
+  onFocusStatus = () => {},
 }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const onFocus = () => {
     setIsFocused(true);
+    onFocusStatus(true);
   };
 
   const onBlur = () => {
     setIsFocused(false);
+    onFocusStatus(false);
   };
 
   return (

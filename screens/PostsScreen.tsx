@@ -1,38 +1,57 @@
 import { FC, useEffect, useState } from "react";
 import { NativeStackScreenProps } from "react-native-screens/lib/typescript/native-stack/types";
-import { StackParamList } from "../navigation/StackNavigator";
-
+import { useSelector } from "react-redux";
 import { Image, Text, TouchableOpacity, View } from "react-native";
-
 import { FlatList } from "react-native-gesture-handler";
 import { Feather } from "@expo/vector-icons";
+import { collection, getCountFromServer, onSnapshot, query } from "firebase/firestore";
 
+import { StackParamList, IPost } from "../types";
 import { colors } from "../styles/global";
 import { styles } from "../styles/css";
-import { IPost } from "../types";
+import { selectUser } from "../redux/user/userSelectors";
+
+import { db } from "../firebase/config";
 
 type Props = NativeStackScreenProps<StackParamList, "Posts">;
 
-const PostsScreen: FC<Props> = ({ navigation, route }) => {
+const PostsScreen: FC<Props> = ({ navigation }) => {
+  const user = useSelector(selectUser);
   const [posts, setPosts] = useState<IPost[]>([]);
 
+  const getAllPosts = async () => {
+    const q = query(collection(db, "posts"));
+
+    onSnapshot(q, async (querySnapshot) => {
+      const posts = await Promise.all(
+        querySnapshot.docs.map(async (doc) => {
+          const coll = collection(db, `posts/${doc.id}/comments`);
+          const snapshot = await getCountFromServer(coll);
+
+          return {
+            ...doc.data(),
+            postId: doc.id,
+            commentCount: snapshot.data().count,
+          };
+        })
+      );
+
+      // @ts-ignore
+      setPosts(posts);
+    });
+  };
+
   useEffect(() => {
-    if (route.params) {
-      setPosts((prevState) => [...prevState, route.params]);
-    }
-  }, [route.params]);
+    getAllPosts();
+  }, []);
 
   return (
-    <View style={styles.postsContainer}>
+    <View style={styles.screensContainer}>
       <View style={styles.userContainer}>
-        <Image
-          style={styles.avatarPhoto}
-          source={require("../assets/images/avatar.png")}
-          resizeMode="cover"
-        />
+        <Image style={styles.avatarPhoto} source={require("../assets/images/avatar.png")} resizeMode="cover" />
         <View style={styles.userData}>
-          <Text style={styles.userName}>Natali Romanova</Text>
-          <Text style={styles.userEmail}>email@example.com</Text>
+          <Text style={styles.userName}>{user.displayName}</Text>
+          <Text style={styles.userEmail}>{user.email}</Text>
         </View>
       </View>
 
@@ -55,30 +74,25 @@ const PostsScreen: FC<Props> = ({ navigation, route }) => {
                 <TouchableOpacity
                   style={{ flexDirection: "row", alignItems: "center" }}
                   onPress={() =>
-                    navigation.navigate("Comments", { post: item })
+                    navigation.navigate("Comments", {
+                      postId: item.postId,
+                      uri: item.photo,
+                    })
                   }
                 >
-                  <Feather
-                    name="message-circle"
-                    size={24}
-                    color={colors.underline_gray}
-                  />
-                  <Text style={styles.count}>0</Text>
+                  <Feather name="message-circle" size={24} color={colors.underline_gray} />
+                  <Text style={styles.count}>{item.commentCount || 0}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() =>
                     navigation.navigate("Map", {
-                      latitude: item.coords?.latitude,
-                      longitude: item.coords?.longitude,
+                      latitude: item.coords.latitude,
+                      longitude: item.coords.longitude,
                     })
                   }
                   style={{ flexDirection: "row", alignItems: "center" }}
                 >
-                  <Feather
-                    name="map-pin"
-                    size={24}
-                    color={colors.underline_gray}
-                  />
+                  <Feather name="map-pin" size={24} color={colors.underline_gray} />
                   <Text style={styles.place}>{item.place}</Text>
                 </TouchableOpacity>
               </View>

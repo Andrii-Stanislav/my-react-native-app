@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { NativeStackScreenProps } from "react-native-screens/lib/typescript/native-stack/types";
-import { StackParamList } from "../navigation/StackNavigator";
+import { StackParamList } from "../types";
 import MapView, { Marker } from "react-native-maps";
 
 import { View } from "react-native";

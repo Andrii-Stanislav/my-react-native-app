@@ -3,6 +3,9 @@ import { useEffect } from "react";
 import { ActivityIndicator } from "react-native";
 import { useFonts } from "expo-font";
 
+import { Provider } from "react-redux";
+import store from "./redux/store";
+
 import * as SplasshScreen from "expo-splash-screen";
 
 import { NavigationContainer } from "@react-navigation/native";
@@ -29,8 +32,10 @@ export default function App() {
   }
 
   return (
-    <NavigationContainer>
-      <StackNavigator />
-    </NavigationContainer>
+    <Provider store={store.store}>
+      <NavigationContainer>
+        <StackNavigator />
+      </NavigationContainer>
+    </Provider>
   );
 }
