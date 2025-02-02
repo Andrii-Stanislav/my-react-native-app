@@ -1,50 +1,54 @@
 import { FC, useState } from "react";
 import { NativeStackScreenProps } from "react-native-screens/lib/typescript/native-stack/types";
-import { StackParamList } from "../navigation/StackNavigator";
+import { useDispatch } from "react-redux";
 
-import {
-  ImageBackground,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-} from "react-native";
+import { Image, Keyboard, KeyboardAvoidingView, Platform, Text, TouchableWithoutFeedback, View } from "react-native";
 
+import { StackParamList } from "../types";
 import { styles } from "../styles/css";
-
 import Input from "../components/Input";
 import Button from "../components/Button";
 import PasswordInput from "../components/PasswordInput";
 
 import AddIcon from "../icons/AddIcon";
 
-type Props = NativeStackScreenProps<StackParamList, "Registration">;
+import { signUp } from "../redux/user/userOperations";
+import { AppDispatch } from "../redux/store";
 
-const RegistrationScreen: FC<Props> = ({ navigation }) => {
-  const [login, setLogin] = useState("");
+type HomeScreenProps = NativeStackScreenProps<StackParamList, "Registration">;
+
+const RegistrationScreen: FC<HomeScreenProps> = ({ navigation, route }) => {
+  const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [keyboardStatus, setKeyboardStatus] = useState(false);
 
+  const dispatch: AppDispatch = useDispatch();
+
+  const keyboardHide = () => {
+    setKeyboardStatus(false);
+    Keyboard.dismiss();
+  };
+
+  const handleInputFocus = (value: boolean) => {
+    setKeyboardStatus(value);
+  };
+
   const handleLoginChange = (value: string) => {
-    setLogin(value);
-    setKeyboardStatus(true);
+    setDisplayName(value);
   };
 
   const handleEmailChange = (value: string) => {
     setEmail(value);
-    setKeyboardStatus(true);
   };
 
   const handlePasswordChange = (value: string) => {
     setPassword(value);
-    setKeyboardStatus(true);
   };
 
   const onRegister = () => {
-    navigation.navigate("Home");
+    dispatch(signUp({ displayName, email, password }));
+    navigation.navigate("Login");
   };
 
   const onLogin = () => {
@@ -52,20 +56,14 @@ const RegistrationScreen: FC<Props> = ({ navigation }) => {
   };
 
   return (
-    <ImageBackground
-      source={require("../assets/images/bg.png")}
-      resizeMode="cover"
-      style={styles.image}
-    >
-      <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-        <KeyboardAvoidingView
-          style={styles.container}
-          behavior={Platform.OS == "ios" ? "padding" : "height"}
-        >
+    <TouchableWithoutFeedback onPress={keyboardHide}>
+      <View style={styles.containerForKeyboard}>
+        <Image source={require("../assets/images/bg.png")} resizeMode="cover" style={styles.image} />
+        <KeyboardAvoidingView style={styles.container} behavior={Platform.OS == "ios" ? "padding" : "height"}>
           <View
             style={{
               ...styles.formContainer,
-              height: keyboardStatus ? "60%" : "77%",
+              height: keyboardStatus ? "78%" : "60%",
             }}
           >
             <View style={styles.avatarContainer}>
@@ -75,30 +73,30 @@ const RegistrationScreen: FC<Props> = ({ navigation }) => {
 
             <View style={[styles.innerContainer, styles.inputContainer]}>
               <Input
-                autofocus={true}
-                value={login}
+                value={displayName}
                 placeholder="Логін"
                 onTextChange={handleLoginChange}
+                onFocusStatus={handleInputFocus}
               />
 
               <Input
                 value={email}
                 placeholder="Адреса електронної пошти"
                 onTextChange={handleEmailChange}
+                onFocusStatus={handleInputFocus}
               />
 
               <PasswordInput
                 value={password}
                 placeholder="Пароль"
                 onTextChange={handlePasswordChange}
+                onFocusStatus={handleInputFocus}
               />
             </View>
 
             <View style={[styles.innerContainer, styles.buttonContainer]}>
               <Button onPress={onRegister}>
-                <Text style={[styles.baseText, styles.buttonText]}>
-                  Зареєстуватися
-                </Text>
+                <Text style={[styles.baseText, styles.buttonText]}>Зареєстуватися</Text>
               </Button>
 
               <View style={styles.loginContainer}>
@@ -112,8 +110,8 @@ const RegistrationScreen: FC<Props> = ({ navigation }) => {
             </View>
           </View>
         </KeyboardAvoidingView>
-      </TouchableWithoutFeedback>
-    </ImageBackground>
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 

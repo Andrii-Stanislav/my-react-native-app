@@ -1,10 +1,4 @@
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
-  StyleSheet,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { Keyboard, KeyboardAvoidingView, Platform, StyleSheet, TouchableWithoutFeedback } from "react-native";
 
 const Home = () => {
   return (

@@ -9,6 +9,7 @@ interface Props {
   placeholder: string;
   value: string;
   onTextChange: (value: string) => void;
+  onFocusStatus?: (value: boolean) => void;
 }
 
 const PasswordInput = (props: Props) => {
@@ -28,6 +29,7 @@ const PasswordInput = (props: Props) => {
       }
       outerStyles={styles.passwordButton}
       secureTextEntry={isPasswordVisible}
+      onFocusStatus={props?.onFocusStatus}
     />
   );
 };

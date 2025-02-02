@@ -1,34 +1,25 @@
 import { createStackNavigator } from "@react-navigation/stack";
+import { TouchableOpacity } from "react-native-gesture-handler";
 import { Fragment } from "react";
-
-import BottomTabNavigator from "./BottomTabNavigation";
+import { useSelector } from "react-redux";
+import { Feather } from "@expo/vector-icons";
 
 import LoginScreen from "../screens/LoginScreen";
 import RegistrationScreen from "../screens/RegistrationScreen";
 import CommentsScreen from "../screens/CommentsScreen";
 import MapScreen from "../screens/MapScreen";
 
-import { styles } from "../styles/css";
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { Feather } from "@expo/vector-icons";
 import { colors } from "../styles/global";
-import { IPost } from "../types";
+import { styles } from "../styles/css";
+import { selectIsAuth } from "../redux/user/userSelectors";
+import { StackParamList } from "../types";
 
-export type StackParamList = {
-  Home: undefined;
-  Login: undefined;
-  Registration: { userEmail: string };
-  CreatePost: undefined;
-  Posts: IPost;
-  Map: { latitude?: number; longitude?: number };
-  Comments: { post: IPost };
-  Profile: { user: object };
-};
+import BottomTabNavigator from "./BottomTabNavigation";
 
 const Stack = createStackNavigator<StackParamList>();
 
 const StackNavigator = () => {
-  const isLoggedIn = true;
+  const isLoggedIn = useSelector(selectIsAuth);
 
   return (
     <Stack.Navigator

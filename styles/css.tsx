@@ -1,5 +1,5 @@
 import { Dimensions, Platform, StyleSheet } from "react-native";
-import { colors } from "../styles/global";
+import { colors } from "./global";
 const { width: SCREEN_WIDTH } = Dimensions.get("screen");
 
 export const styles = StyleSheet.create({
@@ -65,6 +65,7 @@ export const styles = StyleSheet.create({
   },
   imageBg: {
     flex: 1,
+    width: "100%",
   },
   image: {
     position: "absolute",
@@ -163,6 +164,7 @@ export const styles = StyleSheet.create({
     height: "100%",
     borderRadius: 8,
     objectFit: "cover",
+
     justifyContent: "center",
     alignItems: "center",
   },
@@ -170,6 +172,7 @@ export const styles = StyleSheet.create({
     position: "absolute",
     top: 10,
     left: 10,
+
     borderColor: colors.white,
     borderWidth: 1,
     borderRadius: 10,
@@ -178,6 +181,7 @@ export const styles = StyleSheet.create({
     position: "absolute",
     justifyContent: "center",
     alignItems: "center",
+
     width: 60,
     height: 60,
     borderRadius: 50,
@@ -192,8 +196,10 @@ export const styles = StyleSheet.create({
   createPostInput: {
     marginBottom: 32,
     paddingBottom: 15,
+
     borderBottomWidth: 1,
     borderBottomColor: colors.underline_gray,
+
     fontFamily: "Roboto-Medium",
     fontSize: 16,
     lineHeight: 18.75,
@@ -233,7 +239,7 @@ export const styles = StyleSheet.create({
     borderRadius: 20,
     marginHorizontal: "auto",
   },
-  postsContainer: {
+  screensContainer: {
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 32,
@@ -244,8 +250,10 @@ export const styles = StyleSheet.create({
     marginBottom: 8,
     width: "100%",
     height: 240,
+
     overflow: "hidden",
     objectFit: "cover",
+
     borderRadius: 8,
   },
   postTitle: {
@@ -295,5 +303,93 @@ export const styles = StyleSheet.create({
     fontFamily: "Roboto-Regular",
     fontSize: 16,
     marginLeft: 6,
+  },
+  sendButton: {
+    justifyContent: "center",
+    alignItems: "center",
+
+    position: "absolute",
+    right: 8,
+    top: 8,
+
+    width: 34,
+    height: 34,
+
+    backgroundColor: colors.orange,
+    borderRadius: 50,
+  },
+  data: {
+    fontFamily: "Roboto-Regular",
+    fontSize: 10,
+    color: colors.underline_gray,
+  },
+  nickname: {
+    marginBottom: 8,
+    fontFamily: "Roboto-Medium",
+    fontSize: 13,
+    color: colors.black_primary,
+  },
+  avatar: {
+    width: 28,
+    height: 28,
+
+    borderRadius: 50,
+    objectFit: "cover",
+  },
+  avatarWrapper: {
+    width: 28,
+    height: 28,
+    borderRadius: 50,
+    overflow: "hidden",
+    backgroundColor: colors.border_gray,
+  },
+  textContainer: {
+    flex: 1,
+    padding: 16,
+
+    width: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.03)",
+
+    borderRadius: 6,
+  },
+  textInput: {
+    paddingLeft: 16,
+    paddingRight: 8,
+    height: 50,
+    borderRadius: 100,
+    borderWidth: 1,
+    borderColor: colors.border_gray,
+    backgroundColor: colors.light_gray,
+  },
+  postPhotoInCommentScreen: {
+    marginBottom: 32,
+    width: "100%",
+    height: 240,
+
+    overflow: "hidden",
+    objectFit: "cover",
+
+    borderRadius: 8,
+  },
+  profilePhoto: {
+    // TODO
+  },
+  profileContainer: {
+    // TODO
+  },
+  imgContainer: {
+    // TODO
+  },
+  icon: {
+    // TODO
+  },
+  name: {
+    // TODO
+  },
+  photo: {
+    // TODO
+  },
+  commentIcon: {
+    // TODO
   },
 });
