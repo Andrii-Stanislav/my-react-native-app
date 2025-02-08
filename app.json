@@ -11,7 +11,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["assets/fonts/*"],
+    "assetBundlePatterns": [
+      "assets/fonts/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -20,7 +22,12 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "softwareKeyboardLayoutMode": "pan"
+      "softwareKeyboardLayoutMode": "pan",
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.andrii.stanislav.myreactnativeapp"
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
@@ -36,6 +43,11 @@
         }
       ]
     ],
-    "newArchEnabled": true
+    "newArchEnabled": true,
+    "extra": {
+      "eas": {
+        "projectId": "41422011-4550-4182-9acb-6b7de8973812"
+      }
+    }
   }
 }
